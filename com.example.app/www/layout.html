@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <title>DOTDOM</title>
+    <style>
+       body {
+            -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+            -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+            -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+            background-color:#E4E4E4;
+            background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-webkit-gradient(
+                linear,
+                left top,
+                left bottom,
+                color-stop(0, #A7A7A7),
+                color-stop(0.51, #E4E4E4)
+            );
+            background-attachment:fixed;
+            font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+            font-size:12px;
+            height:100%;
+            margin:0px;
+            padding:0px;
+            width:100%;
+            text-align: center;
+        }
+        h1 { margin: 1em auto; font-size: 2em; }
+        a { font-size: 1em;  }
+        label { font-weight: bold; }
+        div {font-size: 1.5em; margin:1em; }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>DotDom</h1>
+        
+        <div id="content">
+            <!-- DYNAMIC -->
+        </div>
+        
+
+        <a href="index.html">Back Home</a>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/dotdom.min.js"></script>
+    <script type="text/javascript">
+
+        function clickkey() {
+            return ('ontouchstart' in window) ? 'ontouchstart' : 'onclick';
+        }
+        
+        function Hello(props) {
+            return H('div', `Hello ${props.toWhat}`);
+        }
+
+        function Clickable(props, state, setState) {
+            const {clicks=0} = state;
+
+            const onclick = () => {
+                setState({clicks: clicks+1})
+            }; 
+            const style = {
+                cursor: 'pointer',
+                border: '2px solid green',
+                padding: '10px',
+                background: '#333',
+                color: 'white',
+                'font-size': '15px',
+                'border-radius': '7px'
+            };
+
+            const attr = { [clickkey()]: onclick, style: style };
+            const text = `Clicked ${clicks} times`;
+
+            return H('button', attr, text);
+        }
+
+        function Root() {
+            return H('div',
+                H(Hello, { toWhat: 'World' }),
+                H(Clickable, { value: 0 })
+            );
+        }
+
+        R(
+            Root(),
+            document.getElementById('content')
+        );
+        
+    </script>
+</body>
+
+</html>
