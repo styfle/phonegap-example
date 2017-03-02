@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <title>Hello Next</title>
+    <style>
+       body {
+            -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+            -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+            -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+            background-color:#E4E4E4;
+            background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+            background-image:-webkit-gradient(
+                linear,
+                left top,
+                left bottom,
+                color-stop(0, #A7A7A7),
+                color-stop(0.51, #E4E4E4)
+            );
+            background-attachment:fixed;
+            font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+            font-size:12px;
+            height:100%;
+            margin:0px;
+            padding:0px;
+            text-transform:uppercase;
+            width:100%;
+            text-align: center;
+        }
+        h1 { margin: 2em; font-size: 3em; }
+        a { font-size: 2em;  }
+        label { font-weight: bold; }
+        div {font-size: 1.5em; margin:1em; }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>Motion</h1>
+        
+        <div><label>X</label>: <span id="x"></span></div>
+        <div><label>Y</label>: <span id="y"></span></div>
+        <div><label>Z</label>: <span id="z"></span></div>
+
+        <a href="index.html">Back Home</a>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script>
+        var d = {};
+        d.x = document.getElementById('x');
+        d.y = document.getElementById('y');
+        d.z = document.getElementById('z');
+        document.addEventListener('deviceready', function() {
+            setInterval(function() {
+                navigator.accelerometer.getCurrentAcceleration(function (a) {
+                    d.x.textContent = a.x.toFixed(2);
+                    d.y.textContent = a.y.toFixed(2);
+                    d.z.textContent = a.z.toFixed(2);
+                    //a.timestamp
+                }, function () {
+                    d.x.textContent = 'getCurrentAcceleration Error!';
+                });
+            }, 100);
+            
+        });
+    </script>
+</body>
+
+</html>
